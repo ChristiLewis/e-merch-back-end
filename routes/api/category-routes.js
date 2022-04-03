@@ -7,6 +7,10 @@ const { Category, Product } = require('../../models');
 router.get('/', (req, res) => {
     Category.findAll({
             attributes: ['id', 'category_url', 'title', 'created_at'],
+            //ADD THE ORDER PROPERTY SO THE MOST CURRENT CATEGORIES SHOW FIRST
+            order: [
+                ['created_at', 'DESC']
+            ],
             include: [{
                 model: Product,
                 attributes: ['productName']
@@ -25,7 +29,7 @@ router.get('/:id', (req, res) => {
             where: {
                 id: req.params.id
             },
-            attributes: ['id', 'category_url', 'title', 'created_at'],
+            attributes: ['id', 'category_url', 'category_name', 'created_at'],
             include: [{
                 model: Product,
                 attributes: ['productName']
@@ -57,12 +61,44 @@ router.post('/', (req, res) => {
         });
 });
 
-router.post('/', (req, res) => {
-    // create a new category
+router.put('/:id', (req, res) => {
+    Category.update({
+            category_name: req.body.categoryName
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
+                return;
+            }
+            res.json(dbCategoryData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
-router.put('/:id', (req, res) => {
-    // update a category by its `id` value
+router.delete('/:id', (req, res) => {
+    Category.destroy({
+            where: {
+                id: req.params.id
+            }
+        })
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
+                return;
+            }
+            res.json(dbCategoryData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 router.delete('/:id', (req, res) => {
