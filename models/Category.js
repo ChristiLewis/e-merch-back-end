@@ -19,7 +19,7 @@ Category.init({
     },
 
     //CATEGORYNAME COLUMN
-    categoryName: {
+    category_name: {
         type: DataTypes.STRING,
         allowNull: false
     },
