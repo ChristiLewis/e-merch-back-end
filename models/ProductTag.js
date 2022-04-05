@@ -28,12 +28,14 @@ ProductTag.init({
     },
 
     //TAGID COLUMN
-    type: DataTypes.INTEGER,
-    allowNull: true,
-    references: {
-        model: 'tag',
-        key: 'id'
-    }
+    tag_id: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'tag',
+            key: 'id'
+        }
+    },
 
 }, {
     sequelize,
