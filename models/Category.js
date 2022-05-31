@@ -18,7 +18,7 @@ Category.init({
         autoIncrement: true
     },
 
-    //CATEGORYNAME COLUMN
+    //CATEGORY_NAME COLUMN
     category_name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -28,7 +28,7 @@ Category.init({
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'category',
+    modelName: 'category'
 });
 
 module.exports = Category;

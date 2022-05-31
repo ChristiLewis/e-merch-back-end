@@ -7,20 +7,17 @@ router.get('/', (req, res) => {
     // find all tags
     // be sure to include its associated Product data
     Tag.findAll({
-        attributes: [
-            'id',
-            'tag_name',
-            'created_at'
-        ],
+        // attributes: [
+        //     'id',
+        //     'tag_name',
+        //     'created_at'
+        // ],
         include: [
+            Product,
             {
                 model: Product,
-                attributes: [dbProductData],
-                include: {
-                    model: ProductTag,
-                    attributes: ['id']
-                }
-            }
+                through: ProductTag
+            },
         ]
     })
         .then(dbTagData => {
@@ -40,20 +37,17 @@ router.get('/:id', (req, res) => {
     // find a single tag by its `id`
     // be sure to include its associated Product data
     Tag.findOne({
-        attributes: [
-            'id',
-            'tag_name',
-            'created_at'
-        ],
+        // attributes: [
+        //     'id',
+        //     'tag_name',
+        //     'created_at'
+        // ],
         include: [
+            Product,
             {
                 model: Product,
-                attributes: [dbProductData],
-                include: {
-                    model: ProductTag,
-                    attributes: ['id']
-                }
-            }
+                through: ProductTag
+            },
         ]
     })
         .then(dbTagData => {

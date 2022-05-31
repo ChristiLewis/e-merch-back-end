@@ -9,28 +9,21 @@ router.get('/', (req, res) => {
     // find all products
     // be sure to include its associated Category and Tag data
     Product.findAll({
-        attributes: [
-            'id',
-            'product_name',
-            'price',
-            'stock',
-            'category_id',
-            'created_at',
-        ],
-        order: [['created_at', 'DESC']],
+        // attributes: [
+        //     'id',
+        //     'product_name',
+        //     'price',
+        //     'stock',
+        //     'category_id',
+        //     'created_at',
+        // ],
+        // order: [['created_at', 'DESC']],
         include: [
+            Category,
             {
-                model: Category,
-                attributes: ['id', 'created_at'],
-                include: {
-                    model: Tag,
-                    attributes: ['id']
-                }
+                model: Tag,
+                through: ProductTag
             },
-            {
-                model: ProductTag,
-                attributes: ['id']
-            }
         ]
     })
         .then(dbProductData => res.json(dbProductData))
@@ -48,27 +41,20 @@ router.get('/:id', (req, res) => {
         where: {
             id: req.params.id
         },
-        attributes: [
-            'id',
-            'product_name',
-            'price',
-            'stock',
-            'category_id',
-            'created_at'
-        ],
+        // attributes: [
+        //     'id',
+        //     'product_name',
+        //     'price',
+        //     'stock',
+        //     'category_id',
+        //     'created_at'
+        // ],
         include: [
+            Category,
             {
-                model: Category,
-                attributes: ['id', 'created_at'],
-                include: {
-                    model: Tag,
-                    attributes: ['id']
-                }
+                model: Tag,
+                through: ProductTag
             },
-            {
-                model: ProductTag,
-                attributes: ['id']
-            }
         ]
     })
         .then(dbProductData => res.json(dbProductData))

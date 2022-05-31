@@ -6,14 +6,14 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
     Category.findAll({
-        attributes: ['id', 'category_name', 'created_at'],
-        //ADD THE ORDER PROPERTY SO THE MOST CURRENT CATEGORIES SHOW FIRST
-        order: [
-            ['created_at', 'DESC']
-        ],
+        // attributes: ['id', 'category_name'],
+        // //ADD THE ORDER PROPERTY SO THE MOST CURRENT CATEGORIES SHOW FIRST
+        // order: [
+        //     ['created_at', 'DESC']
+        // ],
         include: [{
             model: Product,
-            attributes: ['productName']
+            // attributes: ['productName']
         }]
     })
         .then(dbCategoryData => res.json(dbCategoryData))
@@ -29,10 +29,10 @@ router.get('/:id', (req, res) => {
         where: {
             id: req.params.id
         },
-        attributes: ['id', 'category_name', 'created_at'],
+        // attributes: ['id', 'category_name', 'created_at'],
         include: [{
             model: Product,
-            attributes: ['productName']
+            // attributes: ['productName']
         }]
     })
         .then(dbCategoryData => {
@@ -52,7 +52,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     //EXPECTS{ CATEGORY_NAME:'GENERAL TYPE FOR SALE'} 
     Category.create({
-        category_name: req.body.categoryName
+        category_name: req.body.category_name
     })
         .then(dbPostData => res.json(dbPostData))
         .catch(err => {
@@ -63,7 +63,7 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     Category.update({
-        category_name: req.body.categoryName
+        category_name: req.body.category_name
     }, {
         where: {
             id: req.params.id

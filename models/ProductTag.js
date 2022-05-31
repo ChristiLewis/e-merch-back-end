@@ -30,7 +30,7 @@ ProductTag.init({
     //TAGID COLUMN
     tag_id: {
         type: DataTypes.INTEGER,
-        allowNull: true,
+        // allowNull: true,
         references: {
             model: 'tag',
             key: 'id'

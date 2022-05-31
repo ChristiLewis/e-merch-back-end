@@ -20,15 +20,15 @@ Tag.init({
 
     //TAGNAME COLUMN
     tag_name: {
-        type: DataTypes.STRING,
-        allowNull: true
+        type: DataTypes.STRING
+
     },
 }, {
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'tag',
+    modelName: 'tag'
 });
 
 module.exports = Tag;
