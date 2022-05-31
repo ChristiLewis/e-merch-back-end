@@ -6,12 +6,16 @@ const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
     Category.findAll({
-            attributes: ['id', 'category_url', 'title', 'created_at'],
-            include: [{
-                model: Product,
-                attributes: ['productName']
-            }]
-        })
+        // attributes: ['id', 'category_name'],
+        // //ADD THE ORDER PROPERTY SO THE MOST CURRENT CATEGORIES SHOW FIRST
+        // order: [
+        //     ['created_at', 'DESC']
+        // ],
+        include: [{
+            model: Product,
+            // attributes: ['productName']
+        }]
+    })
         .then(dbCategoryData => res.json(dbCategoryData))
         .catch(err => {
             console.log(err);
@@ -22,15 +26,15 @@ router.get('/', (req, res) => {
 //GET ONE CATEGORY WITH ALL ASSOCIATED PRODUCTS
 router.get('/:id', (req, res) => {
     Category.findOne({
-            where: {
-                id: req.params.id
-            },
-            attributes: ['id', 'category_url', 'title', 'created_at'],
-            include: [{
-                model: Product,
-                attributes: ['productName']
-            }]
-        })
+        where: {
+            id: req.params.id
+        },
+        // attributes: ['id', 'category_name', 'created_at'],
+        include: [{
+            model: Product,
+            // attributes: ['productName']
+        }]
+    })
         .then(dbCategoryData => {
             if (!dbCategoryData) {
                 res.status(404).json({ message: 'No category found with this id' });
@@ -48,8 +52,8 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
     //EXPECTS{ CATEGORY_NAME:'GENERAL TYPE FOR SALE'} 
     Category.create({
-            category_name: req.body.categoryName
-        })
+        category_name: req.body.category_name
+    })
         .then(dbPostData => res.json(dbPostData))
         .catch(err => {
             console.log(err)
@@ -57,12 +61,44 @@ router.post('/', (req, res) => {
         });
 });
 
-router.post('/', (req, res) => {
-    // create a new category
+router.put('/:id', (req, res) => {
+    Category.update({
+        category_name: req.body.category_name
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
+                return;
+            }
+            res.json(dbCategoryData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
-router.put('/:id', (req, res) => {
-    // update a category by its `id` value
+router.delete('/:id', (req, res) => {
+    Category.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbCategoryData => {
+            if (!dbCategoryData) {
+                res.status(404).json({ message: 'No category found with this id' });
+                return;
+            }
+            res.json(dbCategoryData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
+        });
 });
 
 router.delete('/:id', (req, res) => {
