@@ -41,7 +41,7 @@ THEN I am able to successfully create, update, and delete data in my database
 
 ## Usage
 
-* **Start the application by typing node index.js**
+* **Start the application by typing node server.js**
 * Click on the image to watch the video!
 * [![Watch the video](./assets/images/e-merch-back-end.jpg)]( https://youtu.be/Gs_r_HABNJM)
 
